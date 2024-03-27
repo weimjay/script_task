@@ -1,5 +1,7 @@
 <?php
 
+//include_once('functions.php');
+
 if (in_array('--help', $argv)) {
     //todo output the command line options
 
@@ -15,9 +17,16 @@ $params = getopt('', [
     'h::',
 ]);
 
-$filename = $params['file'] ?? '';
-if (empty($filename)) {
+$file = $params['file'] ?? '';
+if (empty($file)) {
     exit('Please include the csv file name using --file option'. PHP_EOL);
 }
+
+$data = getCsvData($file);
+
+
+
+
+
 
 
