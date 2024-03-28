@@ -26,7 +26,7 @@ class Database {
 
     private function __clone() {}
 
-    public function create($table, $data) {
+    public function insert($table, $data) {
         try {
             $columns = implode(', ', array_keys($data));
             $values = implode(', :', array_keys($data));
@@ -36,6 +36,31 @@ class Database {
             return $this->pdo->lastInsertId();
         } catch (PDOException $e) {
             $this->error = $e->getMessage();
+            return false;
+        }
+    }
+
+    public function batchInsert($table, $data) {
+        try {
+            $columns = implode(',', array_keys($data[0]));
+            $values = rtrim(str_repeat('?,', count($data[0])), ',');
+            $sql = "INSERT INTO $table ($columns) VALUES ($values)";
+
+            $this->pdo->beginTransaction();
+
+            $stmt = $this->pdo->prepare($sql);
+
+            foreach ($data as $row) {
+                $stmt->execute(array_values($row));
+            }
+
+            $this->pdo->commit();
+
+            return true;
+
+        } catch (PDOException $e) {
+            $this->error = $e->getMessage();
+
             return false;
         }
     }
