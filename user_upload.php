@@ -92,6 +92,13 @@ EOF;
     if (empty($insertData)) {
         exit('[Error] no valid data to insert'.PHP_EOL);
     }
+    if (isset($params['dry_run'])) {
+        echo '[INFO] The data to be inserted: '.PHP_EOL;
+        foreach ($insertData as $k => $val) {
+            echo sprintf("row: %d, name: %s, surname: %s, email: %s", $k, $val['name'], $val['surname'], $val['email']).PHP_EOL;
+        }
+        exit;
+    }
     $host = $params['h'] ?? '';
     $dbUser = $params['u'] ?? '';
     $dbPassword = $params['p'] ?? '';
