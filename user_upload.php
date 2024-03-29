@@ -65,15 +65,14 @@ EOF;
     $emailMap = [];
     foreach ($data as $k => $arr) {
         $row = [];
-        $flag = true;
         $emailIdx = $fieldMap['email'];
         $email = trim($arr[$emailIdx]);
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            echo sprintf("[INFO] email is invalid, value: %s, row: %d".PHP_EOL, $email, $k);
+            echo sprintf("[INFO] email is invalid, value: %s, row: %d".PHP_EOL, $email, $k + 1);
             continue;
         }
         if (isset($emailMap[$email])) {
-            echo sprintf("[INFO] email exists, skip this row, value: %s, row: %d".PHP_EOL, $email, $k);
+            echo sprintf("[INFO] email exists, skip this row, value: %s, row: %d".PHP_EOL, $email, $k + 1);
             continue;
         } else {
             $emailMap[$email] = true;
@@ -87,7 +86,7 @@ EOF;
                 $row[$field] = ucfirst($value);
             }
         }
-        $flag && $insertData[$k] = $row;
+        $insertData[$k] = $row;
     }
     if (empty($insertData)) {
         exit('[Error] no valid data to insert'.PHP_EOL);
@@ -95,7 +94,7 @@ EOF;
     if (isset($params['dry_run'])) {
         echo '[INFO] The data to be inserted: '.PHP_EOL;
         foreach ($insertData as $k => $val) {
-            echo sprintf("row: %d, name: %s, surname: %s, email: %s", $k, $val['name'], $val['surname'], $val['email']).PHP_EOL;
+            echo sprintf("row: %d, name: %s, surname: %s, email: %s", $k + 1, $val['name'], $val['surname'], $val['email']).PHP_EOL;
         }
         exit;
     }
