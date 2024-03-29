@@ -3,11 +3,13 @@
 $data = [];
 for ($i = 1; $i <= 100; $i ++) {
     $element = $i;
-    if ($i % 3 == 0 && $i % 5 == 0) {
+    $divisible3 = $i % 3 == 0;
+    $divisible5 = $i % 5 == 0;
+    if ($divisible3 && $divisible5) {
         $element = 'foobar';
-    } elseif ($i % 3 == 0) {
+    } elseif ($divisible3) {
         $element = 'foo';
-    } elseif ($i % 5 == 0) {
+    } elseif ($divisible5) {
         $element = 'bar';
     }
     $data[] = $element;
